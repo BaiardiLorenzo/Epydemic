@@ -1,18 +1,35 @@
 # EPYDEMIC
-This repository contains the code for the project of the course of Statistical Physics and Complex Systems at the University of Florence.
-The project is about the epidemic spreading and risk perception in multiplex networks.
+
+The project aims to simulate the spread of an epidemic and analyze the influence of both viral and informational components on the dynamics of contagion within a population.
+In particular, the project models epidemic propagation on multiplex networks, where different layers represent various modes of interaction (e.g., physical contact and information exchange). The objective is to understand how the spread of information about the epidemic affects individual behavior and, consequently, the overall progression of the contagion.
 
 ## Project Structure
-The project is structured as follows:
-- 'main.py' is the main file of the project
-- 'src' contains the source code of the project
-- 'report' contains the report of the project
-- 'results' contains the results of the project
-- 'paper' contains the papers related to the project
+
+The repository is organized as follows:
+
+- **`main.py`**: The main script to run the epidemic simulations.
+- **`src/`**: Contains the core implementation of the simulation model and related functions.
+- **`report/`**: Includes the final report documenting the methodology, analysis, and conclusions.
+- **`results/`**: Stores the output data and visualizations generated from the simulations.
+- **`paper/`**: Provides reference papers and literature that informed the development of the project.
+
+## Key Features
+
+- **Multiplex Network Modeling**: Simulates the spread of the epidemic across interconnected layers representing physical and informational interactions.
+- **Behavioral Feedback Loop**: Analyzes how information dissemination influences individual risk perception and modifies epidemic dynamics.
+- **Customizable Parameters**: Allows the configuration of infection rates, recovery rates, and information diffusion speed.
+- **Data Output**: Generates detailed results, including time-series data and network visualizations for further analysis.
 
 ## Related Papers
-- [Epidemic spreading and risk perception in multiplex networks]
-- [Percolation and Internet Science]
-- [Risk perception in epidemic modeling]
-- [The second will be first: competition on directed networks]
-- [Epidemic spreading and risk perception in multiplex networks: A self-organized percolation method]
+
+The following papers were fundamental to the theoretical foundation of this project:
+
+1. *Epidemic spreading and risk perception in multiplex networks*
+2. *Percolation and Internet Science*
+3. *Risk perception in epidemic modeling*
+4. *The second will be first: competition on directed networks*
+5. *Epidemic spreading and risk perception in multiplex networks: A self-organized percolation method*
+
+## Authors
+
+This repository contains the code for the project developed by Lorenzo Baiardi and Marco Bessi for the exam of *Statistical Physics and Complex Systems* in 2024 at the University of Florence. 
