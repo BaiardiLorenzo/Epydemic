@@ -1,0 +1,114 @@
+\section{Analisi del Modello}\label{sec:analisi-del-modello}
+
+Per prima cosa descriviamo i meccanismi per generare reti regolari, casuali e scale-free.
+Denotiamo con $A$ la matrice di adiacenza della rete dove $a_{ij} = 1$ se c'è un arco da
+$j$ a $i$ e $a_{ij} = 0$ altrimenti.
+Denotiamo con $k_i = \sum a_{ij}$ la connettività del sito $i$ e 
+con $j^{(i)}_{1}\cdots j^{(i)}_{k_{i}}$ i suoi vicini $\left\{ j : a_{ij}=1 \right\}$.
+
+Consideriamo solo reti simmetriche con $N$ nodi e $2mN$ collegamenti, in modo che la connettività media 
+$\left\langle k \right\rangle$di ciascun nodo sia pari a $2m$.
+
+\begin{itemize}
+    \item \textbf{Reti regolare Unidimensionale:} I nodi sono disposti ad anello.
+        Ogni dato nodo stabilisce un collegamento con gli $m$ nodi più vicini alla sua destra.
+    \item \textbf{Reti casuali:} Ogni nodo stabilisce $m$ collegamenti con nodi scelti casualmente, evitando auto-loop e collegamenti multipli.
+        La distribuzione di probabilità delle reti casuali è quella di Poisson, $P(k) = \frac{z^k e^{-z}}{k!}$ dove $z =\left\langle k \right\rangle$.
+    \item \textbf{Reti scale-free:} Utilizziamo un modello fissando anche un cutoff $K$.
+        Prima, a ciascun nodo $i$ viene assegnata una connettività $k_i$ estratta da una distribuzione di legge di potenza $P(k) = A k^{-\gamma}$, $m \leq k \leq K$ con $A=(\gamma -1)/(m^{1-\gamma} -K^{1-\gamma})$.
+        I rimanenti archi sono aggiunti in modo casuale, evitando auto-loop e connessioni multiple, infine il numero totale di archi viene tagliato per ottenere il grado medio desiderato.
+\end{itemize}
+
+Siamo interessati a reti multiplex, ottenute dalla combinazione di uno strato fisico e uno strato virtuale.
+Per cominciare generiamo le due reti scegliendo tra le tre tipologie sopra descritte.
+
+La rete di informazione viene poi costruita come segue:
+\begin{itemize}
+    \item \textbf{Rete fisica:}
+        \begin{itemize}
+            \item Per ogni nodo $i$ della rete fisica considera il suo vicinato $\mathcal{N}(i)$, per ogni $j\in \mathcal{N}(i)$
+                aggiungi un arco con direzione da $i$ verso $j$ con probabilità $1-q$.
+        \end{itemize}
+    \item \textbf{Rete virtuale:}
+        \begin{itemize}
+            \item Esegui la stessa procedura con la rete virtuale ma con probabilità $q$.
+        \end{itemize}
+\end{itemize}
+
+In quanto questo procedimento si ripete in modo indipendente per ogni nodo, la rete di informazioni risultante non
+conserva più la sua simmetria originaria (un determinato collegamento può essere scelto da uno dei suoi vertici ma non dall'altro).
+Il parametro $q$ indica il peso assegnato alla rete virtuale: maggiore è il valore di $q$ verso $1$, maggiore sarà la
+somiglianza tra la rete delle informazioni e quella virtuale.
+In pratica, questo parametro regola quanto gli individui attribuiscono importanza alle loro relazioni virtuali.
+La quantità $Nqk$ rappresenta la differenza tra la rete di informazioni e quella fisica.
+
+Questa procedura ci permette di studiare gli effetti su un'epidemia della differenza tra la rete fisica, dove si verifica la
+diffusione e quella di informazione, dove gli attori diventano consapevoli della malattia,
+cioè su cui valutano il rischio di essere infettati.
+
+\subsection{Mean-field approximation}\label{subsec:mean-field-approximation}
+% FIXME: aggiungere riferimenti a teoria, aggiungere roba sul campo medio? e controllare quanto scritto ora
+Per prima cosa il valore critico di $J$ viene ricercato utilizzando i metodi della teoria di campo medio e sempre assumendo
+che tutti i nodi abbiano la stessa connettività.
+Abbiamo usato quindi la seguente formula di aggiornamento della percentuale $c$ di infetti sul grafo basata
+sui metodi di approssimazioni di campo medio:
+
+\begin{equation}
+    c(t+1)=\sum_{s=0}^{k}\binom{k}{s}c(t)^{s}(1-c(t))^{k-s}s\tau\exp\left(-J\frac{s}{k}\right)\label{eq:mean-field}
+\end{equation}
+
+A questo punto fissato un certo valore di $\tau$, abbiamo preso il minimo livello di precauzione $J$ tale per cui $c$ dopo un
+certo numero di passi diventa nullo, ovvero tale da azzerare il numero di infetti. 
+Nella teoria il valore critico di $J$ viene fornito dalla seguente funzione:
+
+\begin{equation}
+    J_{c}=k\ln(k\tau)\label{eq:mean-field-critical}
+\end{equation}
+
+Viene ricavata considerando lo stato stazionario $c(t+1)=c(t)$ con $c\to0$ ed eseguendo alcune manipolazioni algebriche.
+
+Nella fase di test e di valutazione andremo a verificare se i valori predetti dalla formula sono vicini a quelli
+che si osservano simulando l'infezione.
+
+\subsection{Self-organized percolation}\label{subsec:self-organized-percolation}
+Ci siamo poi dedicati allo studio della diffusione dell'epidemia su grafi mediante l'impiego di modelli basati sulla percolazione.
+Abbiamo confrontato i valori teorici con quelli derivati dalle simulazioni,
+al fine di ottenere una visione completa e confrontabile dei risultati.
+
+\subsubsection{Directed percolation}\label{subsubsec:directed-percolation}
+Per cominciare abbiamo considerato grafi in cui i nodi non hanno percezione del rischio, l'unica determinante 
+dell'infezione in questo scenario è la bare infection probability $\tau$.
+Ogni nodo ha un proprio valore di $\tau$ ed è possibile dimostrare che il $\tau$ ottimale per il nodo $i$ al tempo $t+1$ è dato da:
+\begin{equation}
+    \tau_{i}(t+1) = \min_{j= j^{(i)}_{1},\dots, j^{(i)}_{k_{i}}}\max(r_{ij}(t), \tau_{i}(t))\label{eq:directed-percolation}
+\end{equation}
+con $k_{i}$ grado del nodo $i$ e $j$ indice dei vicini.
+Dato un certo tempo sufficientemente grande ma finito $T$, il valore: $\min_{i=1,\dots,n}\tau_{i}(T)$ rappresenta
+la soglia di percolazione al di sopra della quale c'è almeno un sito infetto nel reticolo.
+Andremo a verificare anche in questo caso se i valori predetti dalla formula sono molto vicini a quelli che si osservano
+simulando l'infezione.
+
+\subsubsection{Infezione con la percezione del rischio}\label{subsubsec:infezione-con-la-percezione-del-rischio}
+In questa sezione analizziamo un problema più complesso, cioè assumiamo che i nodi della rete siano dotati di
+un valore $J$ che indica la percezione del rischio di infezione.
+Anche in questo scenario è possibile ricavare una successione di valori ottimali di $J$ come segue:
+\begin{equation}
+    J_{i}(t+1) = \max_{j= j^{(i)}_{1},\dots,j^{(i)}_{k_{i}}}\min\left(J_{j}(t),\frac{-k_{ i}}{s_{i}(J_{j}(t))}\ln\left(\frac{r_{ij}(t)}{\tau}\right)\right)\label{eq:risk-perception}
+\end{equation}
+
+In modo simile a quanto fatto in precedenza prendiamo: $\max_{i= 1,\dots,n}J_{i}(T)$ come valore critico.
+
+\subsubsection{Multiplex networks}\label{subsubsec:multiplex-networks}
+In conclusione abbiamo affrontato il problema della percolazione su reti Multiplex, come nel caso precedente 
+l'infezione avviene sul network fisico ma la
+percezione del rischio è influenzata dalla topologia della rete di informazione e in particolare dal numero di
+infetti su quest'ultima.
+La formula che si ricava è molto simile a quella precedente:
+\begin{equation}
+    J_{i}(t+1)=\max_{j^{(i)}_{1},\dots,j^{(i)}_{k_{i}}}\min(J_{j}(t),\frac{-k_{ i}}{\overline{s_{i}}(J_{j}(t))}\ln(\frac{r_{ij}(t)}{\tau}))\label{eq:multiplex}
+\end{equation}
+l'unica differenza è nel termine $\overline{s_{i}}$ che rappresenta il numero di vicini infetti percepito
+dal nodo $i$ e viene calcolato sul grafo informativo.
+Quello che ci si può aspettare è che al crescere del valore di q la rete informativa si avvicini sempre più a quella
+virtuale, influenzando molto la percezione del rischio per un dato nodo che concentra la sua attenzione su nodi che non
+gli sono vicini realmente, sottovalutando il reale livello di rischio del mondo fisico.

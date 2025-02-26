@@ -1,0 +1,78 @@
+\section{Risultati}\label{sec:risultati}
+
+\subsection{Mean-field approximation}\label{subsec:res-mean-field-approximation}
+    Come possiamo vedere dalla figura ~\ref{fig:mf_critical_j}, il calcolo del campo medio approssima bene il valore
+    critico di $J$, sia nel caso teorico che in quello pratico, confermando la validità teorica del metodo.
+
+    \begin{figure}[H]
+        \includegraphics[width=\textwidth]{MF/mfjcs-it10000}\caption{Approssimazione di campo medio al variare di $k$}
+        \label{fig:mf_critical_j}
+    \end{figure}
+
+\subsection{Simple percolation}\label{subsec:res-simple-percolation}
+    In questo caso abbiamo fatto varie simulazioni in base al numero di nodi e al valore di connettività $k$.
+    I risultati in ~\ref{fig:prob_percolation_n10000} mostrano come anche in questo caso siamo riusciti a ottenere che
+    i valori predetti dalla formula sono molto vicini a quelli che si osservano simulando l'infezione.
+
+    \begin{figure}[H]
+        \includegraphics[width=\linewidth]{SIM/tcs-nodes10000_it10000}
+        \caption{Valutazione della probabilità di percolazione al variare della tipologia di grafo e del numero di nodi}
+        \label{fig:prob_percolation_n10000}
+    \end{figure}
+
+\subsection{Infezione percezione del rischio}\label{subsec:res-infezione-con-la-percezione-del-rischio}
+    Il modello di infezione con la percezione del rischio considera il fatto che le persone possano adottare precauzioni
+    per proteggersi da una malattia, a differenza del caso precedente.
+    Questo approccio è prezioso per esaminare l'impatto della percezione del rischio sulla diffusione di una malattia,
+    ma non tiene conto dell'influenza delle informazioni virtuali.
+    Nel nostro esperimento, abbiamo constatato che, sotto le nostre ipotesi sui grafi, i valori restituiti dal metodo di
+    percolazione si avvicinano notevolmente a quelli derivati dalla teoria del campo medio, suggerendo un'approssimativa
+    presenza di auto organizzazione critica del sistema.
+    Questo ci fornisce un metodo automatico per determinare il livello critico della percezione del rischio, evitando la
+    necessità di regolare manualmente i parametri di controllo attraverso numerose simulazioni.
+    Ciascun nodo impara il proprio valore critico di $J$ dopo un certo numero di iterazioni, ad ogni iterazione
+    viene aggiornato $J$ basandosi sull'informazione fornita dal valore precedente e dallo stato dei suoi vicini, in
+    questo aspetto il meccanismo di percolazione somiglia a quello di una rete ricorrente su grafi, in cui lo stato dei
+    vari nodi viene aggiornato tramite una funzione ricorsiva che, dipende dagli stati precedenti e dal segnale fornito dai
+    vicini.
+    Anche per questo tipo di reti il numero delle iterazioni non può essere troppo alto per evitare il fenomeno
+    dell'oversmoothing che, semplificando, vanifica l'apprendimento facendo convergere tutti i nodi a uno stesso valore,
+    similmente a quanto si osserva nella percolazione con gli absorbing state.
+    % FIXME Check if is okay
+    In questo caso è interessante notare come al crescere di $\tau$ oltre la soglia critica ci sia sempre un $J$ per cui è
+    possibile arrestare la diffusione dell'epidemia.
+
+    \begin{figure}[H]
+        \includegraphics[width=\textwidth]{PERC/percjcs-k3_nodes10000_it100}
+        \caption{Confronto self percolation and simulation con $n=10000$ e 100 iterazioni}
+        \label{fig:perc_jcs_k_3}
+    \end{figure}
+
+    \begin{figure}[H]
+        \includegraphics[width=\textwidth]{PERC/percjcs-k6_nodes10000_it100}
+        \caption{Confronto self percolation and simulation con $n=10000$ e 100 iterazioni}
+        \label{fig:perc_jcs_k_6}
+    \end{figure}
+
+\subsection{Multiplex networks}\label{subsec:res-multiplex-networks}
+    I risultati ottenuti dalla simulazione del modello multiplex sono mostrati in figura ~\ref{fig:diagram_phase_poisson_k_6_jm_100}.
+    Nei diagrammi di fase, notiamo che con un valore $\tau$ sufficientemente elevato, esiste sempre una soglia critica
+    di $q$ oltre la quale è virtualmente impossibile arrestare l'epidemia.
+    L'aumento di $t$ e $q$ comporta una diffusione dell'infezione sempre più ampia e difficile da contenere,
+    poiché i valori di $Jc$ aumentano in modo significativo.
+    Nella rappresentazione grafica del diagramma di fase,
+    possiamo osservare come la curva della soglia di percolazione approssimi un'iperbole.
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\textwidth]{MUL/Poisson-k6_nodes10000_it100_jm100}
+        \caption{Diagramma di fase al variare di $q$ e $\tau$: grafo Poisson con $k=6$, nodi 10000, iterazioni 100. Valore di $J_{\max} = 100$}
+        \label{fig:diagram_phase_poisson_k_6_jm_100}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\textwidth]{MUL/Poisson-k6_nodes10000_it100_jminf}
+        \caption{Diagramma di fase al variare di $q$ e $\tau$: grafo Poisson con $k=6$, nodi 10000, iterazioni 100. Valore di $J_{\max} = \inf$}
+        \label{fig:digram_phase_poisson_k_6_jm_inf}
+    \end{figure}
