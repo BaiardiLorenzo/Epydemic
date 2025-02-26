@@ -1,8 +1,8 @@
 # EPYDEMIC
 
-The project aims to simulate the spread of an epidemic and analyze the influence of both viral and informational components on the dynamics of contagion within a population.
-In particular, the project models epidemic propagation on multiplex networks, where different layers represent various modes of interaction (e.g., physical contact and information exchange). The objective is to understand how the spread of information about the epidemic affects individual behavior and, consequently, the overall progression of the contagion.
+The project aims to simulate the spread of an epidemic and analyze how both viral transmission and the dissemination of information influence the dynamics of contagion within a population.  
 
+In particular, the study models epidemic propagation on multiplex networks, where each layer represents a distinct form of interaction (e.g., physical contact and information exchange). This framework enables the exploration of how the diffusion of information about the epidemic affects individual behavior and, consequently, how these behavioral changes influence the overall progression of the epidemic.
 ## Project Structure
 
 The repository is organized as follows:
